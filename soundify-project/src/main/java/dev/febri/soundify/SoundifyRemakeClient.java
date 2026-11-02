@@ -50,7 +50,9 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             return;
         }
 
-        client.level.playPlayerSound(sound, source, 1.0F, 1.0F);
+        float volume = SoundifySettings.volume();
+        if (volume <= 0.0F) return;
+        client.level.playPlayerSound(sound, source, volume, 1.0F);
     }
 
     @Override
