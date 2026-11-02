@@ -98,7 +98,8 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             ItemStack stack =
                     client.player.getInventory().getSelectedItem();
 
-            if (stack.is(ItemTags.AXES)) {
+            // Axe and pickaxe share the same selection sound.
+            if (stack.is(ItemTags.AXES) || stack.is(ItemTags.PICKAXES)) {
                 playSound(client, TOOL_SELECT_AXE, SoundSource.UI);
             } else if (stack.is(ItemTags.SWORDS)) {
                 playSound(client, TOOL_SELECT_SWORD, SoundSource.UI);
