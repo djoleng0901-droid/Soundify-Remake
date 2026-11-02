@@ -62,11 +62,10 @@ public final class SoundifyConfigScreen extends Screen {
     @Override
     public void extractRenderState(
             GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
-        super.extractRenderState(graphics, mouseX, mouseY, delta);
-
         int cx = this.width / 2;
         graphics.fill(cx - 118, 24, cx + 118, this.height - 24, 0xE51B2028);
         graphics.fill(cx - 118, 24, cx + 118, 26, 0xFF526C75);
+        super.extractRenderState(graphics, mouseX, mouseY, delta);
         graphics.text(this.font, "SOUNDIFY REMAKE", cx, 42, 0xFFE7EDF0, true);
         graphics.text(this.font, "Volume Soundify", cx,
                 this.height / 2 - 62, 0xFFB8C5CC, true);
