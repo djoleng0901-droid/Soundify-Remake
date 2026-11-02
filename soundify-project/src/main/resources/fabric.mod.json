@@ -1,22 +1,15 @@
-
 {
   "schemaVersion": 1,
   "id": "soundify_remake",
-  "version": "0.3.0-dev",
+  "version": "${version}",
   "name": "Soundify Remake",
   "description": "Client-side sound replacement rebuild scaffold.",
-  "authors": [
-    "Febri"
-  ],
+  "authors": ["Febri"],
   "license": "All-Rights-Reserved",
   "environment": "client",
   "entrypoints": {
-    "client": [
-      "dev.febri.soundify.SoundifyRemakeClient"
-    ],
-    "modmenu": [
-      "dev.febri.soundify.ModMenuIntegration"
-    ]
+    "client": ["dev.febri.soundify.SoundifyRemakeClient"],
+    "modmenu": ["dev.febri.soundify.ModMenuIntegration"]
   },
   "depends": {
     "fabricloader": ">=0.19.3",
@@ -24,8 +17,6 @@
     "java": ">=25",
     "fabric-api": "*"
   },
-  "suggests": {
-    "modmenu": "*"
-  },
+  "suggests": { "modmenu": "*" },
   "icon": "assets/soundify_remake/icon.png"
 }
