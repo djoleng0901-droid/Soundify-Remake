@@ -1,0 +1,359 @@
+{
+  "ui_tick": {
+    "subtitle": "sound.soundify_remake.ui_tick",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/ui_01",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/ui_02",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/ui_03",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/ui_04",
+        "stream": false
+      }
+    ]
+  },
+  "item_chime": {
+    "subtitle": "sound.soundify_remake.item_chime",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/hotbar_06",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/hotbar_07",
+        "stream": false
+      }
+    ]
+  },
+  "soft_step": {
+    "subtitle": "sound.soundify_remake.soft_step",
+    "sounds": [
+      {
+        "name": "soundify_remake:soft_step",
+        "stream": false
+      }
+    ]
+  },
+  "block_tap": {
+    "subtitle": "sound.soundify_remake.block_tap",
+    "sounds": [
+      {
+        "name": "soundify_remake:block_tap",
+        "stream": false
+      }
+    ]
+  },
+  "soft_ambience": {
+    "subtitle": "sound.soundify_remake.soft_ambience",
+    "sounds": [
+      {
+        "name": "soundify_remake:soft_ambience",
+        "stream": true
+      }
+    ]
+  },
+  "player_step_grass": {
+    "subtitle": "sound.soundify_remake.player_step_grass",
+    "sounds": [
+      {
+        "name": "soundify_remake:player_step_grass",
+        "stream": false
+      }
+    ]
+  },
+  "player_step_stone": {
+    "subtitle": "sound.soundify_remake.player_step_stone",
+    "sounds": [
+      {
+        "name": "soundify_remake:player_step_stone",
+        "stream": false
+      }
+    ]
+  },
+  "player_step_sand": {
+    "subtitle": "sound.soundify_remake.player_step_sand",
+    "sounds": [
+      {
+        "name": "soundify_remake:player_step_sand",
+        "stream": false
+      }
+    ]
+  },
+  "block_wood_place": {
+    "subtitle": "sound.soundify_remake.block_wood_place",
+    "sounds": [
+      {
+        "name": "soundify_remake:block_wood_place",
+        "stream": false
+      }
+    ]
+  },
+  "block_stone_break": {
+    "subtitle": "sound.soundify_remake.block_stone_break",
+    "sounds": [
+      {
+        "name": "soundify_remake:block_stone_break",
+        "stream": false
+      }
+    ]
+  },
+  "item_pickup": {
+    "subtitle": "sound.soundify_remake.item_pickup",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/hotbar_01",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/hotbar_02",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/hotbar_03",
+        "stream": false
+      }
+    ]
+  },
+  "item_drop": {
+    "subtitle": "sound.soundify_remake.item_drop",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/hotbar_04",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/hotbar_05",
+        "stream": false
+      }
+    ]
+  },
+  "gui_confirm": {
+    "subtitle": "sound.soundify_remake.gui_confirm",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/ui_05",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/ui_06",
+        "stream": false
+      }
+    ]
+  },
+  "gui_back": {
+    "subtitle": "sound.soundify_remake.gui_back",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/ui_07",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/ui_08",
+        "stream": false
+      }
+    ]
+  },
+  "kill_confirm": {
+    "subtitle": "sound.soundify_remake.kill_confirm",
+    "sounds": [
+      {
+        "name": "soundify_remake:kill_confirm",
+        "stream": false
+      }
+    ]
+  },
+  "effect_magic": {
+    "subtitle": "sound.soundify_remake.effect_magic",
+    "sounds": [
+      {
+        "name": "soundify_remake:effect_magic",
+        "stream": false
+      }
+    ]
+  },
+  "explosion_soft": {
+    "subtitle": "sound.soundify_remake.explosion_soft",
+    "sounds": [
+      {
+        "name": "soundify_remake:explosion_soft",
+        "stream": false
+      }
+    ]
+  },
+  "entity_chirp": {
+    "subtitle": "sound.soundify_remake.entity_chirp",
+    "sounds": [
+      {
+        "name": "soundify_remake:entity_chirp",
+        "stream": false
+      }
+    ]
+  },
+  "environment_wind": {
+    "subtitle": "sound.soundify_remake.environment_wind",
+    "sounds": [
+      {
+        "name": "soundify_remake:environment_wind",
+        "stream": true
+      }
+    ]
+  },
+  "tool_swing": {
+    "subtitle": "sound.soundify_remake.tool_swing",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_01",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_02",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_03",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_04",
+        "stream": false
+      }
+    ]
+  },
+  "tool_break": {
+    "subtitle": "sound.soundify_remake.tool_break",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_05",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_06",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_07",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/tools_08",
+        "stream": false
+      }
+    ]
+  },
+  "mace_swing": {
+    "subtitle": "sound.soundify_remake.mace_swing",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/mace_02",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_04",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_07",
+        "stream": false
+      }
+    ]
+  },
+  "mace_impact": {
+    "subtitle": "sound.soundify_remake.mace_impact",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/mace_01",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_03",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_05",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_06",
+        "stream": false
+      },
+      {
+        "name": "soundify_remake:video/mace_08",
+        "stream": false
+      }
+    ]
+  },
+  "inventory_open": {
+    "subtitle": "sound.soundify_remake.inventory_open",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/ui_01",
+        "stream": false
+      }
+    ]
+  },
+  "inventory_close": {
+    "subtitle": "sound.soundify_remake.inventory_close",
+    "sounds": [
+      {
+        "name": "soundify_remake:video/ui_03",
+        "stream": false
+      }
+    ]
+  },
+  "tool_axe_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_01",
+        "stream": false
+      }
+    ]
+  },
+  "tool_sword_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_02",
+        "stream": false
+      }
+    ]
+  },
+  "tool_attack": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_03",
+        "stream": false
+      }
+    ]
+  },
+  "tool_mace_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_05",
+        "stream": false
+      }
+    ]
+  },
+  "tool_spear_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_06",
+        "stream": false
+      }
+    ]
+  },
+  "tool_shield_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/tools_07",
+        "stream": false
+      }
+    ]
+  }
+}
