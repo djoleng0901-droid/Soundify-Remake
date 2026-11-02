@@ -1,6 +1,7 @@
 package dev.febri.soundify;
 
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.AbstractSliderButton;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -9,6 +10,7 @@ import net.minecraft.network.chat.Component;
 public final class SoundifyConfigScreen extends Screen {
     private final Screen parent;
     private Button toggleButton;
+    private VolumeSlider volumeSlider;
 
     public SoundifyConfigScreen(Screen parent) {
         super(Component.literal("Soundify Remake"));
@@ -27,17 +29,9 @@ public final class SoundifyConfigScreen extends Screen {
                     button.setMessage(toggleLabel());
                 }).bounds(cx - 100, y, 200, 20).build());
 
-        this.addRenderableWidget(Button.builder(
-                Component.literal("Volume −"),
-                button -> SoundifySettings.setVolume(
-                        SoundifySettings.rawVolume() - 0.05F
-                )).bounds(cx - 100, y + 28, 96, 20).build());
-
-        this.addRenderableWidget(Button.builder(
-                Component.literal("Volume +"),
-                button -> SoundifySettings.setVolume(
-                        SoundifySettings.rawVolume() + 0.05F
-                )).bounds(cx + 4, y + 28, 96, 20).build());
+        volumeSlider = this.addRenderableWidget(new VolumeSlider(
+                cx - 100, y + 28, 200, 20, SoundifySettings.rawVolume()
+        ));
 
         this.addRenderableWidget(Button.builder(
                 Component.literal("Reset"),
@@ -45,6 +39,7 @@ public final class SoundifyConfigScreen extends Screen {
                     SoundifySettings.setVolume(0.65F);
                     SoundifySettings.setEnabled(true);
                     toggleButton.setMessage(toggleLabel());
+                    volumeSlider.setVolumeValue(0.65F);
                 }).bounds(cx - 100, y + 56, 200, 20).build());
 
         this.addRenderableWidget(Button.builder(
@@ -69,9 +64,6 @@ public final class SoundifyConfigScreen extends Screen {
         graphics.text(this.font, "SOUNDIFY REMAKE", cx, 42, 0xFFE7EDF0, true);
         graphics.text(this.font, "Volume Soundify", cx,
                 this.height / 2 - 62, 0xFFB8C5CC, true);
-        graphics.text(this.font,
-                Math.round(SoundifySettings.rawVolume() * 100) + "%",
-                cx, this.height / 2 + 22, 0xFF91B9B5, true);
         graphics.text(this.font, "Terpisah dari volume Minecraft", cx,
                 this.height / 2 + 92, 0xFF8D9AA3, true);
     }
@@ -79,5 +71,29 @@ public final class SoundifyConfigScreen extends Screen {
     @Override
     public void onClose() {
         this.minecraft.gui.setScreen(this.parent);
+    }
+
+    private static final class VolumeSlider extends AbstractSliderButton {
+        private VolumeSlider(int x, int y, int width, int height, float initialValue) {
+            super(x, y, width, height, Component.empty(),
+                    Math.max(0.0, Math.min(1.0, initialValue)));
+            updateMessage();
+        }
+
+        @Override
+        protected void updateMessage() {
+            setMessage(Component.literal(
+                    "Volume Soundify: " + Math.round(this.value * 100) + "%"
+            ));
+        }
+
+        @Override
+        protected void applyValue() {
+            SoundifySettings.setVolume((float) this.value);
+        }
+
+        private void setVolumeValue(float volume) {
+            setValue(Math.max(0.0, Math.min(1.0, volume)));
+        }
     }
 }
