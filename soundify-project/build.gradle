@@ -41,6 +41,56 @@ java {
     withSourcesJar()
 }
 
+
+def referenceAudioArchives = [
+    file("soundify-reference-audio-ready.zip"),
+    file("soundify-audio-21.zip")
+]
+
+tasks.register("installReferenceAudio", Exec) {
+    onlyIf { referenceAudioArchives.any { it.exists() } }
+    commandLine "bash", "tools/install_reference_audio.sh"
+}
+
+tasks.named("processResources") {
+    dependsOn tasks.named("installReferenceAudio")
+}
+
+tasks.register("verifyReferenceAudio") {
+    group = "verification"
+    description = "Checks that all 20 non-weapon reference audio clips are installed."
+    doLast {
+        def audioDir = file("src/main/resources/assets/soundify_remake/sounds/video/reference")
+        def requiredClips = [
+            "01_explosion.ogg",
+            "02_death.ogg",
+            "03_respawn.ogg",
+            "04_killstreak_1.ogg",
+            "05_killstreak_2.ogg",
+            "06_killstreak_3.ogg",
+            "07_killstreak_4_plus.ogg",
+            "08_speed_effect.ogg",
+            "09_slowness_effect.ogg",
+            "10_night_vision_effect.ogg",
+            "11_jump_boost_effect.ogg",
+            "12_jump_with_boost.ogg",
+            "13_item_drop.ogg",
+            "15_ender_pearl_teleport.ogg",
+            "16_xp_level_up.ogg",
+            "17_golden_apple_effect.ogg",
+            "18_block_place.ogg",
+            "19_inventory_open.ogg",
+            "20_inventory_close.ogg",
+            "21_inventory_item_select.ogg"
+        ]
+        def missing = requiredClips.findAll { !new File(audioDir, it).isFile() }
+        if (!missing.isEmpty()) {
+            throw new GradleException("Missing reference audio: ${missing.join(', ')}. Add soundify-reference-audio-ready.zip to the project root, then run gradle installReferenceAudio.")
+        }
+        logger.lifecycle("All ${requiredClips.size()} non-weapon reference audio clips are installed.")
+    }
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.release = 25
 }
