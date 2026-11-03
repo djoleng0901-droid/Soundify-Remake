@@ -138,7 +138,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         // then confirmed after vanilla has consumed one item from the stack.
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
             Minecraft client = Minecraft.getInstance();
-            if (world.isClientSide && player == client.player) {
+            if (world.isClientSide() && player == client.player) {
                 ItemStack held = player.getItemInHand(hand);
                 if (held.getItem() instanceof BlockItem) {
                     pendingBlockStack = held;
