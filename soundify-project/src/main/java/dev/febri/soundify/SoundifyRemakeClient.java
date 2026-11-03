@@ -10,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
@@ -24,6 +25,10 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
 
     private static int lastSelectedSlot = -1;
     private static int lastExperienceLevel = -1;
+    private static int lastKillStat = -1;
+    private static int killStreak;
+    private static long clientTick;
+    private static long lastKillTick = -1L;
     private static boolean wasDead;
     private static boolean wasOnGround = true;
     private static boolean hadSpeed;
@@ -81,6 +86,10 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
     private static void resetPlayerState() {
         lastSelectedSlot = -1;
         lastExperienceLevel = -1;
+        lastKillStat = -1;
+        killStreak = 0;
+        clientTick = 0L;
+        lastKillTick = -1L;
         wasDead = false;
         wasOnGround = true;
         hadSpeed = false;
@@ -109,6 +118,39 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             }
 
             var player = client.player;
+            clientTick++;
+
+            // Vanilla kill statistics are server-authoritative: unlike attack
+            // callbacks, they only advance when the server credits a real kill.
+            int killStat = player.getStats().getValue(Stats.MOB_KILLS)
+                    + player.getStats().getValue(Stats.PLAYER_KILLS);
+            if (lastKillStat < 0) {
+                lastKillStat = killStat;
+            } else if (killStat < lastKillStat) {
+                // Stats can be reset by a world/server change.
+                lastKillStat = killStat;
+                killStreak = 0;
+                lastKillTick = -1L;
+            } else if (killStat > lastKillStat) {
+                int newKills = killStat - lastKillStat;
+                lastKillStat = killStat;
+                for (int i = 0; i < newKills; i++) {
+                    if (lastKillTick < 0L || clientTick - lastKillTick > 160L) {
+                        killStreak = 0;
+                    }
+                    killStreak++;
+                    lastKillTick = clientTick;
+                    SoundEvent streakSound = killStreak == 1 ? KILLSTREAK_1
+                            : killStreak == 2 ? KILLSTREAK_2
+                            : killStreak == 3 ? KILLSTREAK_3 : KILLSTREAK_4_PLUS;
+                    playSound(client, streakSound, SoundSource.PLAYER);
+                }
+            }
+            if (killStreak > 0 && lastKillTick >= 0L
+                    && clientTick - lastKillTick > 160L) {
+                killStreak = 0;
+                lastKillTick = -1L;
+            }
 
             // Player death/respawn transitions.
             boolean deadNow = player.isDeadOrDying();
