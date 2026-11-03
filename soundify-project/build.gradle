@@ -1,4 +1,6 @@
 
+import groovy.json.JsonSlurper
+
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.17.17'
 }
@@ -93,4 +95,47 @@ tasks.register("verifyReferenceAudio") {
 
 tasks.withType(JavaCompile).configureEach {
     options.release = 25
+}
+
+
+tasks.register("verifySoundResources") {
+    group = "verification"
+    description = "Checks that every bundled sounds.json reference has a matching OGG resource."
+    doLast {
+        def assetsDir = file("src/main/resources/assets/soundify_remake")
+        def soundsFile = new File(assetsDir, "sounds.json")
+        if (!soundsFile.isFile()) {
+            throw new GradleException("Missing assets/soundify_remake/sounds.json")
+        }
+
+        def definitions = new JsonSlurper().parse(soundsFile)
+        def missing = []
+        definitions.each { eventName, definition ->
+            (definition.sounds ?: []).each { sound ->
+                def resourceName = sound.name as String
+                def namespaceSeparator = resourceName.indexOf(":")
+                if (namespaceSeparator >= 0) {
+                    def namespace = resourceName.substring(0, namespaceSeparator)
+                    if (namespace != "soundify_remake") {
+                        return
+                    }
+                    resourceName = resourceName.substring(namespaceSeparator + 1)
+                }
+                // Reference-video clips are supplied in the separate audio archive
+                // and are checked by verifyReferenceAudio when preparing a release.
+                if (resourceName.startsWith("video/reference/")) {
+                    return
+                }
+                def resourceFile = new File(assetsDir, "sounds/" + resourceName + ".ogg")
+                if (!resourceFile.isFile()) {
+                    missing << "${eventName} -> ${resourceName}.ogg"
+                }
+            }
+        }
+
+        if (!missing.isEmpty()) {
+            throw new GradleException("Missing sound resources:\\n - " + missing.join("\\n - "))
+        }
+        logger.lifecycle("All bundled sounds.json references resolve to OGG files.")
+    }
 }
