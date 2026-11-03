@@ -2,6 +2,8 @@ package dev.febri.soundify;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
@@ -201,14 +203,14 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // The configured drop key is observed without consuming its click,
             // so vanilla still performs the normal item-drop action.
             boolean dropKeyDown = client.options.keyDrop.isDown();
-            if (dropKeyDown && !dropKeyWasDown && client.screen == null
+            if (dropKeyDown && !dropKeyWasDown && player.containerMenu == player.inventoryMenu
                     && !player.getInventory().getSelectedItem().isEmpty()) {
                 playSound(client, VIDEO_ITEM_DROP, SoundSource.PLAYERS);
             }
             dropKeyWasDown = dropKeyDown;
 
             // Inventory item-select audio follows real carried-stack changes.
-            if (client.screen instanceof InventoryScreen) {
+            if (player.containerMenu == player.inventoryMenu) {
                 ItemStack carried = player.containerMenu.getCarried();
                 if (!trackingInventoryCursor) {
                     lastInventoryCursor = carried.copy();
