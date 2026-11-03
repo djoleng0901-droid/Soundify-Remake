@@ -41,6 +41,10 @@ If the reference audio archive is absent, the ordinary build can still compile,
 but the corresponding reference events will be silent. Run the verification
 task before treating a JAR as a complete release.
 
+## Resource checks
+
+The CI build runs `verifySoundResources` to ensure that every bundled sound entry points to an existing OGG file. Reference-video clips are supplied separately and can be checked with `gradle verifyReferenceAudio` after installing the audio archive.
+
 ## Build
 
 Requirements: JDK 25 and Gradle.
