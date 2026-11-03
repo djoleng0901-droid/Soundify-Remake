@@ -93,6 +93,18 @@ public final class SoundifyConfigScreen extends Screen {
         );
     }
 
+    private int sliderLeft() {
+        return this.width / 2 - 60;
+    }
+
+    private int sliderRight() {
+        return this.width / 2 + 60;
+    }
+
+    private int sliderY() {
+        return 28 + 154;
+    }
+
     @Override
     public void extractRenderState(
             GuiGraphicsExtractor graphics, int mouseX, int mouseY, float delta) {
