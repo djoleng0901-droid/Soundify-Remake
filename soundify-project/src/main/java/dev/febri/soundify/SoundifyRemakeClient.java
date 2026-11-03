@@ -153,7 +153,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         // position change, not merely when the item is right-clicked.
         UseItemCallback.EVENT.register((player, world, hand) -> {
             Minecraft client = Minecraft.getInstance();
-            if (world.isClientSide && player == client.player
+            if (world.isClientSide() && player == client.player
                     && player.getItemInHand(hand).is(Items.ENDER_PEARL)) {
                 pendingPearlTeleport = true;
                 pearlStartX = player.getX();
