@@ -6,6 +6,10 @@ plugins {
 }
 
 version = project.mod_version
+
+mixin {
+    defaultRefmapName = "soundify-remake-refmap.json"
+}
 group = project.maven_group
 
 base {

@@ -7,7 +7,8 @@ Client-side Fabric sound mod for Minecraft Java 26.2.
 - Independent Soundify on/off and volume controls in the Mod Menu configuration screen
 - Inventory open and close sounds
 - Inventory cursor pickup/place/drag feedback
-- Confirmed item-drop and block-placement sounds
+- Item-drop sound triggered only after Minecraft confirms a successful player drop
+- Confirmed block-placement sound
 - Ender-pearl teleport feedback after the player actually moves
 - Player death and respawn transitions
 - Speed, Slowness, Night Vision, and Jump Boost activation sounds

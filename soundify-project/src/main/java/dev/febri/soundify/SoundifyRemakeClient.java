@@ -41,11 +41,6 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
     private static boolean hadJumpBoost;
     private static boolean wasUsingGoldenApple;
     private static boolean usingGoldenApple;
-    private static boolean dropKeyWasDown;
-    private static ItemStack pendingDropStack = ItemStack.EMPTY;
-    private static int pendingDropCount;
-    private static int pendingDropSlot = -1;
-    private static long pendingDropDeadline = -1L;
     private static ItemStack pendingBlockStack = ItemStack.EMPTY;
     private static int pendingBlockCount;
     private static long pendingBlockDeadline = -1L;
@@ -92,6 +87,10 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, id, event);
     }
 
+    public static void playItemDropSound() {
+        playSound(Minecraft.getInstance(), VIDEO_ITEM_DROP, SoundSource.PLAYERS);
+    }
+
     private static void playSound(Minecraft client, SoundEvent sound, SoundSource source) {
         if (client.level == null || client.player == null || !SoundifySettings.enabled()) {
             return;
@@ -117,11 +116,6 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         hadJumpBoost = false;
         wasUsingGoldenApple = false;
         usingGoldenApple = false;
-        dropKeyWasDown = false;
-        pendingDropStack = ItemStack.EMPTY;
-        pendingDropCount = 0;
-        pendingDropSlot = -1;
-        pendingDropDeadline = -1L;
         pendingBlockStack = ItemStack.EMPTY;
         pendingBlockCount = 0;
         pendingBlockDeadline = -1L;
@@ -207,39 +201,6 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
                     pearlDeadline = -1L;
                 }
             }
-
-            // Confirm an actual inventory decrease before playing the drop sound.
-            if (pendingDropDeadline >= 0L) {
-                ItemStack currentDropSlot = pendingDropSlot >= 0
-                        ? player.getInventory().getItem(pendingDropSlot) : ItemStack.EMPTY;
-                boolean dropped = currentDropSlot.isEmpty()
-                        || (currentDropSlot.getItem() == pendingDropStack.getItem()
-                        && currentDropSlot.getCount() < pendingDropCount);
-                if (dropped) {
-                    playSound(client, VIDEO_ITEM_DROP, SoundSource.PLAYERS);
-                    pendingDropDeadline = -1L;
-                    pendingDropStack = ItemStack.EMPTY;
-                    pendingDropSlot = -1;
-                } else if (clientTick > pendingDropDeadline) {
-                    pendingDropDeadline = -1L;
-                    pendingDropStack = ItemStack.EMPTY;
-                    pendingDropSlot = -1;
-                }
-            }
-
-            // Observe the configured drop key without consuming its click.
-            boolean dropKeyDown = client.options.keyDrop.isDown();
-            if (dropKeyDown && !dropKeyWasDown
-                    && player.containerMenu == player.inventoryMenu) {
-                ItemStack selected = player.getInventory().getSelectedItem();
-                if (!selected.isEmpty()) {
-                    pendingDropStack = selected.copy();
-                    pendingDropCount = selected.getCount();
-                    pendingDropSlot = player.getInventory().getSelectedSlot();
-                    pendingDropDeadline = clientTick + 2L;
-                }
-            }
-            dropKeyWasDown = dropKeyDown;
 
             // Inventory item-select audio follows real carried-stack changes.
             if (player.containerMenu == player.inventoryMenu) {

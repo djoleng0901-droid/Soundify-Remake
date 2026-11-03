@@ -7,6 +7,7 @@
   "authors": ["Febri"],
   "license": "All-Rights-Reserved",
   "environment": "client",
+  "mixins": ["soundify_remake.mixins.json"],
   "entrypoints": {
     "client": ["dev.febri.soundify.SoundifyRemakeClient"],
     "modmenu": ["dev.febri.soundify.ModMenuIntegration"]
