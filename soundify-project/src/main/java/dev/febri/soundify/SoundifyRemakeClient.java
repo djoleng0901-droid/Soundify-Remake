@@ -10,6 +10,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.effect.MobEffects;
@@ -37,6 +39,17 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
     private static boolean hadJumpBoost;
     private static boolean wasUsingGoldenApple;
     private static boolean usingGoldenApple;
+    private static boolean dropKeyWasDown;
+    private static ItemStack pendingBlockStack = ItemStack.EMPTY;
+    private static int pendingBlockCount;
+    private static long pendingBlockDeadline = -1L;
+    private static boolean pendingPearlTeleport;
+    private static double pearlStartX;
+    private static double pearlStartY;
+    private static double pearlStartZ;
+    private static long pearlDeadline = -1L;
+    private static ItemStack lastInventoryCursor = ItemStack.EMPTY;
+    private static boolean trackingInventoryCursor;
 
     public static final SoundEvent INVENTORY_OPEN = registerSound("inventory_open");
     public static final SoundEvent INVENTORY_CLOSE = registerSound("inventory_close");
@@ -98,6 +111,14 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         hadJumpBoost = false;
         wasUsingGoldenApple = false;
         usingGoldenApple = false;
+        dropKeyWasDown = false;
+        pendingBlockStack = ItemStack.EMPTY;
+        pendingBlockCount = 0;
+        pendingBlockDeadline = -1L;
+        pendingPearlTeleport = false;
+        pearlDeadline = -1L;
+        lastInventoryCursor = ItemStack.EMPTY;
+        trackingInventoryCursor = false;
     }
 
     @Override
@@ -111,6 +132,36 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             );
         });
 
+        // A block-placement sound is queued only for an actual BlockItem use,
+        // then confirmed after vanilla has consumed one item from the stack.
+        UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
+            Minecraft client = Minecraft.getInstance();
+            if (world.isClientSide && player == client.player) {
+                ItemStack held = player.getItemInHand(hand);
+                if (held.getItem() instanceof BlockItem) {
+                    pendingBlockStack = held;
+                    pendingBlockCount = held.getCount();
+                    pendingBlockDeadline = clientTick + 2L;
+                }
+            }
+            return InteractionResult.PASS;
+        });
+
+        // Ender-pearl audio plays only after the pearl use results in a real
+        // position change, not merely when the item is right-clicked.
+        UseItemCallback.EVENT.register((player, world, hand) -> {
+            Minecraft client = Minecraft.getInstance();
+            if (world.isClientSide && player == client.player
+                    && player.getItemInHand(hand).is(Items.ENDER_PEARL)) {
+                pendingPearlTeleport = true;
+                pearlStartX = player.getX();
+                pearlStartY = player.getY();
+                pearlStartZ = player.getZ();
+                pearlDeadline = clientTick + 40L;
+            }
+            return InteractionResult.PASS;
+        });
+
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (client.player == null || client.level == null) {
                 resetPlayerState();
@@ -119,6 +170,59 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
 
             var player = client.player;
             clientTick++;
+
+            // Confirm block placement by observing the held BlockItem decrease.
+            if (pendingBlockDeadline >= 0L) {
+                if (pendingBlockStack.getCount() < pendingBlockCount) {
+                    playSound(client, VIDEO_BLOCK_PLACE, SoundSource.BLOCKS);
+                    pendingBlockDeadline = -1L;
+                    pendingBlockStack = ItemStack.EMPTY;
+                } else if (clientTick > pendingBlockDeadline) {
+                    pendingBlockDeadline = -1L;
+                    pendingBlockStack = ItemStack.EMPTY;
+                }
+            }
+
+            // Confirm a successful ender-pearl teleport by its resulting movement.
+            if (pendingPearlTeleport) {
+                double dx = player.getX() - pearlStartX;
+                double dy = player.getY() - pearlStartY;
+                double dz = player.getZ() - pearlStartZ;
+                if (dx * dx + dy * dy + dz * dz > 16.0D) {
+                    playSound(client, ENDER_PEARL_TELEPORT, SoundSource.PLAYERS);
+                    pendingPearlTeleport = false;
+                    pearlDeadline = -1L;
+                } else if (clientTick > pearlDeadline) {
+                    pendingPearlTeleport = false;
+                    pearlDeadline = -1L;
+                }
+            }
+
+            // The configured drop key is observed without consuming its click,
+            // so vanilla still performs the normal item-drop action.
+            boolean dropKeyDown = client.options.keyDrop.isDown();
+            if (dropKeyDown && !dropKeyWasDown && client.screen == null
+                    && !player.getInventory().getSelectedItem().isEmpty()) {
+                playSound(client, VIDEO_ITEM_DROP, SoundSource.PLAYERS);
+            }
+            dropKeyWasDown = dropKeyDown;
+
+            // Inventory item-select audio follows real carried-stack changes.
+            if (client.screen instanceof InventoryScreen) {
+                ItemStack carried = player.containerMenu.getCarried();
+                if (!trackingInventoryCursor) {
+                    lastInventoryCursor = carried.copy();
+                    trackingInventoryCursor = true;
+                } else {
+                    if (!carried.isEmpty() && !ItemStack.matches(lastInventoryCursor, carried)) {
+                        playSound(client, VIDEO_INVENTORY_SELECT, SoundSource.UI);
+                    }
+                    lastInventoryCursor = carried.copy();
+                }
+            } else {
+                trackingInventoryCursor = false;
+                lastInventoryCursor = ItemStack.EMPTY;
+            }
 
             // Vanilla kill statistics are server-authoritative: unlike attack
             // callbacks, they only advance when the server credits a real kill.
