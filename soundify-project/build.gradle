@@ -7,8 +7,11 @@ plugins {
 
 version = project.mod_version
 
-mixin {
-    defaultRefmapName = "soundify-remake-refmap.json"
+loom {
+    mixin {
+        useLegacyMixinAp = true
+        defaultRefmapName = "soundify-remake-refmap.json"
+    }
 }
 group = project.maven_group
 
