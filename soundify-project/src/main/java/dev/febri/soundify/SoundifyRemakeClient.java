@@ -122,8 +122,8 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
 
             // Vanilla kill statistics are server-authoritative: unlike attack
             // callbacks, they only advance when the server credits a real kill.
-            int killStat = player.getStats().getValue(Stats.MOB_KILLS)
-                    + player.getStats().getValue(Stats.PLAYER_KILLS);
+            int killStat = player.getStats().getValue(Stats.CUSTOM.get(Stats.MOB_KILLS))
+                    + player.getStats().getValue(Stats.CUSTOM.get(Stats.PLAYER_KILLS));
             if (lastKillStat < 0) {
                 lastKillStat = killStat;
             } else if (killStat < lastKillStat) {
