@@ -134,7 +134,7 @@ tasks.register("verifySoundResources") {
         }
 
         if (!missing.isEmpty()) {
-            throw new GradleException("Missing sound resources:\\n - " + missing.join("\\n - "))
+            throw new GradleException("Missing sound resources:\n - " + missing.join("\n - "))
         }
         logger.lifecycle("All bundled sounds.json references resolve to OGG files.")
     }
