@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ARCHIVE="${1:-soundify-audio-21.zip}"
+if [[ $# -gt 0 ]]; then
+  ARCHIVE="$1"
+elif [[ -f "soundify-reference-audio-ready.zip" ]]; then
+  ARCHIVE="soundify-reference-audio-ready.zip"
+else
+  ARCHIVE="soundify-audio-21.zip"
+fi
 DEST="src/main/resources/assets/soundify_remake/sounds/video/reference"
 
 if [[ ! -f "$ARCHIVE" ]]; then
-  echo "Archive not found: $ARCHIVE" >&2
-  echo "Place soundify-audio-21.zip in the soundify-project directory or pass its path." >&2
+  echo "Audio archive not found: $ARCHIVE" >&2
+  echo "Place soundify-reference-audio-ready.zip or soundify-audio-21.zip in the project root." >&2
   exit 1
 fi
 
@@ -17,6 +23,7 @@ fi
 
 mkdir -p "$DEST"
 
+# These are the 20 non-weapon clips used by the client event mappings.
 clips=(
   01_explosion.ogg
   02_death.ogg
@@ -40,12 +47,22 @@ clips=(
   21_inventory_item_select.ogg
 )
 
+mapfile -t archive_entries < <(unzip -Z1 "$ARCHIVE")
+
 for clip in "${clips[@]}"; do
-  entry="soundify-audio-21/$clip"
-  if ! unzip -Z1 "$ARCHIVE" "$entry" >/dev/null 2>&1; then
-    echo "Missing clip in archive: $entry" >&2
+  entry=""
+  for candidate in "${archive_entries[@]}"; do
+    if [[ "$candidate" == "$clip" || "$candidate" == */"$clip" ]]; then
+      entry="$candidate"
+      break
+    fi
+  done
+
+  if [[ -z "$entry" ]]; then
+    echo "Missing clip in archive: $clip" >&2
     exit 1
   fi
+
   unzip -p "$ARCHIVE" "$entry" > "$DEST/$clip"
   if [[ ! -s "$DEST/$clip" ]]; then
     echo "Extracted file is empty: $DEST/$clip" >&2
@@ -53,13 +70,12 @@ for clip in "${clips[@]}"; do
   fi
 done
 
-echo "Installed ${#clips[@]} non-weapon reference audio clips into:"
-echo "$DEST"
 if command -v ffprobe >/dev/null 2>&1; then
   for clip in "${clips[@]}"; do
     ffprobe -v error -show_entries format=duration -of csv=p=0 "$DEST/$clip" >/dev/null
   done
-  echo "All installed OGG files passed ffprobe validation."
+  echo "Installed and validated ${#clips[@]} non-weapon reference OGG files in $DEST"
 else
+  echo "Installed ${#clips[@]} non-weapon reference OGG files in $DEST"
   echo "ffprobe not found; skipped audio validation."
 fi
