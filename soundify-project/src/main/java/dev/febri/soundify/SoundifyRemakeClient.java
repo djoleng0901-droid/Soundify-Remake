@@ -287,9 +287,13 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             }
             wasOnGround = onGroundNow;
 
-            // XP level-up transition.
+            // Play once for every level gained, including multi-level XP pickups.
+            // The first observed level is only a baseline, not a level-up event.
             if (lastExperienceLevel >= 0 && player.experienceLevel > lastExperienceLevel) {
-                playSound(client, XP_LEVEL_UP, SoundSource.PLAYERS);
+                int gainedLevels = player.experienceLevel - lastExperienceLevel;
+                for (int i = 0; i < gainedLevels; i++) {
+                    playSound(client, XP_LEVEL_UP, SoundSource.PLAYERS);
+                }
             }
             lastExperienceLevel = player.experienceLevel;
 
