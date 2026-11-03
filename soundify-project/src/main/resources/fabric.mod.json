@@ -3,7 +3,7 @@
   "id": "soundify_remake",
   "version": "${version}",
   "name": "Soundify Remake",
-  "description": "Client-side sound replacement rebuild scaffold.",
+  "description": "Client-side Fabric sound enhancement mod with independent volume controls and contextual gameplay audio.",
   "authors": ["Febri"],
   "license": "All-Rights-Reserved",
   "environment": "client",
