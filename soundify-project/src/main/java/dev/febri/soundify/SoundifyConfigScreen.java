@@ -18,7 +18,7 @@ public final class SoundifyConfigScreen extends Screen {
     @Override
     protected void init() {
         int cx = this.width / 2;
-        int y = this.height / 2 - 38;
+        int y = this.height / 2 - 60;
 
         toggleButton = this.addRenderableWidget(Button.builder(
                 toggleLabel(),
@@ -45,7 +45,7 @@ public final class SoundifyConfigScreen extends Screen {
                     SoundifySettings.setVolume(0.65F);
                     SoundifySettings.setEnabled(true);
                     toggleButton.setMessage(toggleLabel());
-                }).bounds(cx - 100, y + 56, 200, 20).build());
+                }).bounds(cx - 100, y + 74, 200, 20).build());
 
         this.addRenderableWidget(Button.builder(
                 Component.literal("Kembali"),
@@ -68,10 +68,10 @@ public final class SoundifyConfigScreen extends Screen {
         super.extractRenderState(graphics, mouseX, mouseY, delta);
         graphics.text(this.font, "SOUNDIFY REMAKE", cx, 42, 0xFFE7EDF0, true);
         graphics.text(this.font, "Volume Soundify", cx,
-                this.height / 2 - 62, 0xFFB8C5CC, true);
+                this.height / 2 - 74, 0xFFB8C5CC, true);
         graphics.text(this.font,
                 Math.round(SoundifySettings.rawVolume() * 100) + "%",
-                cx, this.height / 2 + 22, 0xFF91B9B5, true);
+                cx, this.height / 2, 0xFF91B9B5, true);
         graphics.text(this.font, "Terpisah dari volume Minecraft", cx,
                 this.height / 2 + 92, 0xFF8D9AA3, true);
     }
