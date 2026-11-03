@@ -291,19 +291,17 @@
     ]
   },
   "inventory_open": {
-    "subtitle": "sound.soundify_remake.inventory_open",
     "sounds": [
       {
-        "name": "soundify_remake:video/ui_01",
+        "name": "soundify_remake:video/reference/19_inventory_open",
         "stream": false
       }
     ]
   },
   "inventory_close": {
-    "subtitle": "sound.soundify_remake.inventory_close",
     "sounds": [
       {
-        "name": "soundify_remake:video/ui_03",
+        "name": "soundify_remake:video/reference/20_inventory_close",
         "stream": false
       }
     ]
@@ -352,6 +350,158 @@
     "sounds": [
       {
         "name": "soundify_remake:video/tools_07",
+        "stream": false
+      }
+    ]
+  },
+  "video_explosion": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/01_explosion",
+        "stream": false
+      }
+    ]
+  },
+  "player_death": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/02_death",
+        "stream": false
+      }
+    ]
+  },
+  "player_respawn": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/03_respawn",
+        "stream": false
+      }
+    ]
+  },
+  "killstreak_1": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/04_killstreak_1",
+        "stream": false
+      }
+    ]
+  },
+  "killstreak_2": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/05_killstreak_2",
+        "stream": false
+      }
+    ]
+  },
+  "killstreak_3": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/06_killstreak_3",
+        "stream": false
+      }
+    ]
+  },
+  "killstreak_4_plus": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/07_killstreak_4_plus",
+        "stream": false
+      }
+    ]
+  },
+  "speed_effect": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/08_speed_effect",
+        "stream": false
+      }
+    ]
+  },
+  "slowness_effect": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/09_slowness_effect",
+        "stream": false
+      }
+    ]
+  },
+  "night_vision_effect": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/10_night_vision_effect",
+        "stream": false
+      }
+    ]
+  },
+  "jump_boost_effect": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/11_jump_boost_effect",
+        "stream": false
+      }
+    ]
+  },
+  "jump_with_boost": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/12_jump_with_boost",
+        "stream": false
+      }
+    ]
+  },
+  "video_item_drop": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/13_item_drop",
+        "stream": false
+      }
+    ]
+  },
+  "video_mace_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/14_mace_hotbar_select",
+        "stream": false
+      }
+    ]
+  },
+  "ender_pearl_teleport": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/15_ender_pearl_teleport",
+        "stream": false
+      }
+    ]
+  },
+  "xp_level_up": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/16_xp_level_up",
+        "stream": false
+      }
+    ]
+  },
+  "golden_apple_effect": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/17_golden_apple_effect",
+        "stream": false
+      }
+    ]
+  },
+  "video_block_place": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/18_block_place",
+        "stream": false
+      }
+    ]
+  },
+  "video_inventory_select": {
+    "sounds": [
+      {
+        "name": "soundify_remake:video/reference/21_inventory_item_select",
         "stream": false
       }
     ]
