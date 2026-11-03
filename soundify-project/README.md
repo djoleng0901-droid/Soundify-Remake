@@ -5,7 +5,7 @@ Client-side Fabric sound mod for Minecraft Java 26.2.
 ## Included features
 
 - Independent Soundify on/off and volume controls in the Mod Menu configuration screen
-- Inventory open and close sounds
+- Inventory/container menu open and close sounds (player inventory, chests, crafting, furnaces, and other container screens)
 - Inventory cursor pickup/place/drag feedback
 - Item-drop sound triggered only after Minecraft confirms a successful player drop
 - Confirmed block-placement sound
@@ -61,7 +61,7 @@ The mod JAR is written to `build/libs/`.
 ## Configuration
 
 Open Mod Menu, select **Soundify Remake**, then use the category navigation for
-General, Audio, and About. The Audio page provides a draggable independent
-Soundify volume control plus fine adjustments. Reset restores the default
+General, Audio, and About. The Audio page provides an independent Soundify
+volume control with fine adjustments. Reset restores the default
 volume and enabled state; Done returns to the previous screen. Settings are
 stored locally and do not change Minecraft's master volume.
