@@ -143,7 +143,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
                     SoundEvent streakSound = killStreak == 1 ? KILLSTREAK_1
                             : killStreak == 2 ? KILLSTREAK_2
                             : killStreak == 3 ? KILLSTREAK_3 : KILLSTREAK_4_PLUS;
-                    playSound(client, streakSound, SoundSource.PLAYER);
+                    playSound(client, streakSound, SoundSource.PLAYERS);
                 }
             }
             if (killStreak > 0 && lastKillTick >= 0L
@@ -155,9 +155,9 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // Player death/respawn transitions.
             boolean deadNow = player.isDeadOrDying();
             if (deadNow && !wasDead) {
-                playSound(client, PLAYER_DEATH, SoundSource.PLAYER);
+                playSound(client, PLAYER_DEATH, SoundSource.PLAYERS);
             } else if (!deadNow && wasDead) {
-                playSound(client, PLAYER_RESPAWN, SoundSource.PLAYER);
+                playSound(client, PLAYER_RESPAWN, SoundSource.PLAYERS);
             }
             wasDead = deadNow;
 
@@ -167,10 +167,10 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             boolean nightVisionNow = player.hasEffect(MobEffects.NIGHT_VISION);
             boolean jumpBoostNow = player.hasEffect(MobEffects.JUMP_BOOST);
 
-            if (speedNow && !hadSpeed) playSound(client, SPEED_EFFECT, SoundSource.PLAYER);
-            if (slownessNow && !hadSlowness) playSound(client, SLOWNESS_EFFECT, SoundSource.PLAYER);
-            if (nightVisionNow && !hadNightVision) playSound(client, NIGHT_VISION_EFFECT, SoundSource.PLAYER);
-            if (jumpBoostNow && !hadJumpBoost) playSound(client, JUMP_BOOST_EFFECT, SoundSource.PLAYER);
+            if (speedNow && !hadSpeed) playSound(client, SPEED_EFFECT, SoundSource.PLAYERS);
+            if (slownessNow && !hadSlowness) playSound(client, SLOWNESS_EFFECT, SoundSource.PLAYERS);
+            if (nightVisionNow && !hadNightVision) playSound(client, NIGHT_VISION_EFFECT, SoundSource.PLAYERS);
+            if (jumpBoostNow && !hadJumpBoost) playSound(client, JUMP_BOOST_EFFECT, SoundSource.PLAYERS);
 
             hadSpeed = speedNow;
             hadSlowness = slownessNow;
@@ -180,13 +180,13 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // Jump sound is specific to a jump while Jump Boost is active.
             boolean onGroundNow = player.onGround();
             if (wasOnGround && !onGroundNow && jumpBoostNow) {
-                playSound(client, JUMP_WITH_BOOST, SoundSource.PLAYER);
+                playSound(client, JUMP_WITH_BOOST, SoundSource.PLAYERS);
             }
             wasOnGround = onGroundNow;
 
             // XP level-up transition.
             if (lastExperienceLevel >= 0 && player.experienceLevel > lastExperienceLevel) {
-                playSound(client, XP_LEVEL_UP, SoundSource.PLAYER);
+                playSound(client, XP_LEVEL_UP, SoundSource.PLAYERS);
             }
             lastExperienceLevel = player.experienceLevel;
 
@@ -195,7 +195,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
                     && (player.getUseItem().is(Items.GOLDEN_APPLE)
                     || player.getUseItem().is(Items.ENCHANTED_GOLDEN_APPLE));
             if (wasUsingGoldenApple && !usingGoldenApple) {
-                playSound(client, GOLDEN_APPLE_EFFECT, SoundSource.PLAYER);
+                playSound(client, GOLDEN_APPLE_EFFECT, SoundSource.PLAYERS);
             }
             wasUsingGoldenApple = usingGoldenApple;
 
