@@ -60,6 +60,8 @@ The mod JAR is written to `build/libs/`.
 
 ## Configuration
 
-Open Mod Menu, select **Soundify Remake**, then adjust the independent enable
-toggle and volume controls. The setting is stored locally and does not change
-Minecraft's master volume.
+Open Mod Menu, select **Soundify Remake**, then use the category navigation for
+General, Audio, and About. The Audio page provides a draggable independent
+Soundify volume control plus fine adjustments. Reset restores the default
+volume and enabled state; Done returns to the previous screen. Settings are
+stored locally and do not change Minecraft's master volume.
