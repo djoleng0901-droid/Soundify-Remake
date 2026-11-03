@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -128,7 +128,11 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ScreenEvents.AFTER_INIT.register((client, screen, scaledWidth, scaledHeight) -> {
-            if (!(screen instanceof InventoryScreen)) return;
+            // Apply the paired UI cues to every container menu: player inventory,
+            // chests, crafting, furnaces, and other AbstractContainerScreen menus.
+            // Non-container screens such as chat, pause, title, and this config UI
+            // are intentionally excluded.
+            if (!(screen instanceof AbstractContainerScreen<?>)) return;
 
             playSound(client, INVENTORY_OPEN, SoundSource.UI);
             ScreenEvents.remove(screen).register(
