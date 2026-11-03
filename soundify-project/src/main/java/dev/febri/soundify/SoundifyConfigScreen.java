@@ -82,7 +82,7 @@ public final class SoundifyConfigScreen extends Screen {
     private void addTabButton(String label, int tab, int x, int y) {
         this.addRenderableWidget(Button.builder(
                 Component.literal((activeTab == tab ? "» " : "") + label),
-                button -> this.minecraft.setScreen(
+                button -> this.minecraft.gui.setScreen(
                         new SoundifyConfigScreen(this.parent, tab)
                 )).bounds(x, y, 104, 22).build());
     }
@@ -91,46 +91,6 @@ public final class SoundifyConfigScreen extends Screen {
         return Component.literal(
                 SoundifySettings.enabled() ? "Soundify  •  Enabled" : "Soundify  •  Disabled"
         );
-    }
-
-    private int sliderLeft() {
-        return this.width / 2 - 60;
-    }
-
-    private int sliderRight() {
-        return this.width / 2 + 60;
-    }
-
-    private int sliderY() {
-        return 28 + 154;
-    }
-
-    private void updateVolumeFromMouse(double mouseX) {
-        double normalized = (mouseX - sliderLeft()) / (double) (sliderRight() - sliderLeft());
-        SoundifySettings.setVolume((float) Math.max(0.0D, Math.min(1.0D, normalized)));
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (activeTab == TAB_AUDIO && button == 0
-                && mouseY >= sliderY() - 5 && mouseY <= sliderY() + 9
-                && mouseX >= sliderLeft() - 2 && mouseX <= sliderRight() + 2) {
-            updateVolumeFromMouse(mouseX);
-            return true;
-        }
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean mouseDragged(
-            double mouseX, double mouseY, int button, double dragX, double dragY) {
-        if (activeTab == TAB_AUDIO && button == 0
-                && mouseY >= sliderY() - 12 && mouseY <= sliderY() + 16
-                && mouseX >= sliderLeft() - 8 && mouseX <= sliderRight() + 8) {
-            updateVolumeFromMouse(mouseX);
-            return true;
-        }
-        return super.mouseDragged(mouseX, mouseY, button, dragX, dragY);
     }
 
     @Override
@@ -187,7 +147,7 @@ public final class SoundifyConfigScreen extends Screen {
             graphics.text(this.font, "0%", trackLeft, trackY + 15, 0xFF87969E, false);
             graphics.text(this.font, "100%", trackRight - 24, trackY + 15,
                     0xFF87969E, false);
-            graphics.text(this.font, "Click or drag the bar, or use − / +.",
+            graphics.text(this.font, "Use − / + to adjust the volume.",
                     contentX, top + 190, 0xFF87969E, false);
         } else {
             graphics.text(this.font, "About Soundify Remake", contentX, top + 54,
