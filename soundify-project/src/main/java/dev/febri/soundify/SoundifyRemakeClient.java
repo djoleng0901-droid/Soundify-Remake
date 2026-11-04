@@ -209,7 +209,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // Inventory item-select audio follows carried-stack changes in any
             // vanilla container screen (player inventory, chest, crafting, etc.).
             // The explicit screen check keeps unrelated menus and gameplay out.
-            if (client.screen instanceof AbstractContainerScreen<?>
+            if (client.getScreen() instanceof AbstractContainerScreen<?>
                     && player.containerMenu != null) {
                 ItemStack carried = player.containerMenu.getCarried();
                 if (!trackingInventoryCursor) {
