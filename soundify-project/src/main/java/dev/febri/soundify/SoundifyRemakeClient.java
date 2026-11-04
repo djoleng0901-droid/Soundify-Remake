@@ -51,6 +51,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
     private static long pearlDeadline = -1L;
     private static ItemStack lastInventoryCursor = ItemStack.EMPTY;
     private static boolean trackingInventoryCursor;
+    private static Object trackedContainerScreen;
 
     public static final SoundEvent INVENTORY_OPEN = registerSound("inventory_open");
     public static final SoundEvent INVENTORY_CLOSE = registerSound("inventory_close");
@@ -123,6 +124,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
         pearlDeadline = -1L;
         lastInventoryCursor = ItemStack.EMPTY;
         trackingInventoryCursor = false;
+        trackedContainerScreen = null;
     }
 
     @Override
@@ -134,10 +136,14 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // are intentionally excluded.
             if (!(screen instanceof AbstractContainerScreen<?>)) return;
 
+            trackedContainerScreen = screen;
             playSound(client, INVENTORY_OPEN, SoundSource.UI);
-            ScreenEvents.remove(screen).register(
-                    removedScreen -> playSound(client, INVENTORY_CLOSE, SoundSource.UI)
-            );
+            ScreenEvents.remove(screen).register(removedScreen -> {
+                if (trackedContainerScreen == removedScreen) {
+                    trackedContainerScreen = null;
+                }
+                playSound(client, INVENTORY_CLOSE, SoundSource.UI);
+            });
         });
 
         // A block-placement sound is queued only for an actual BlockItem use,
@@ -209,8 +215,7 @@ public final class SoundifyRemakeClient implements ClientModInitializer {
             // Inventory item-select audio follows carried-stack changes in any
             // vanilla container screen (player inventory, chest, crafting, etc.).
             // The explicit screen check keeps unrelated menus and gameplay out.
-            if (client.getScreen() instanceof AbstractContainerScreen<?>
-                    && player.containerMenu != null) {
+            if (trackedContainerScreen != null && player.containerMenu != null) {
                 ItemStack carried = player.containerMenu.getCarried();
                 if (!trackingInventoryCursor) {
                     lastInventoryCursor = carried.copy();
